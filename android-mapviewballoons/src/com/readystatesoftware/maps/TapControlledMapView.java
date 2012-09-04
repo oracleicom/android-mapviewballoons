@@ -1,6 +1,7 @@
 package com.readystatesoftware.maps;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
@@ -13,7 +14,13 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 
     private GestureDetector gd;    
     private OnSingleTapListener singleTapListener;
-
+    private int oldZoomLevel = -1;
+    private OnZoomListener onZoomListener;
+    
+    public interface OnZoomListener {
+        public void onZoom();
+    }
+    
 	public TapControlledMapView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupGestures();
@@ -99,6 +106,18 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 		return false;
 	}
     
+	@Override
+	protected void dispatchDraw(Canvas canvas) {
+		super.dispatchDraw(canvas);
+		if (getZoomLevel() != oldZoomLevel) {
+			oldZoomLevel = getZoomLevel();
+			if (onZoomListener != null) {
+				onZoomListener.onZoom();
+			}
+		}
+	}
+
+	public void setOnZoomListener(OnZoomListener onZoomListener) {
+		this.onZoomListener = onZoomListener;
+	}
 }
-
-
