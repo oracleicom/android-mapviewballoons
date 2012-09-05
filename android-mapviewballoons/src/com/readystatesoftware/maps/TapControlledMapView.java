@@ -41,12 +41,12 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
         
         //set the on Double tap listener  
         gd.setOnDoubleTapListener(new OnDoubleTapListener() {
-
 			@Override
 			public boolean onSingleTapConfirmed(MotionEvent e) {
 				if (singleTapListener != null) {
 					return singleTapListener.onSingleTap(e);
-				} else {
+				} 
+				else {
 					return false;
 				}
 			}
@@ -61,7 +61,6 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 			public boolean onDoubleTapEvent(MotionEvent e) {
 				return false;
 			}
-        	
         });
     }
     
@@ -69,7 +68,8 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (this.gd.onTouchEvent(ev)) {
 			return true;
-		} else {
+		} 
+		else {
 			return super.onTouchEvent(ev);
 		}
 	}
@@ -84,7 +84,7 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	}
 
 	@Override
-	public void onShowPress(MotionEvent e) {}
+	public void onShowPress(MotionEvent e) { }
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
@@ -92,8 +92,7 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	}
 
 	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		return false;
 	}
 
@@ -101,8 +100,7 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	public void onLongPress(MotionEvent e) {}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		return false;
 	}
     
