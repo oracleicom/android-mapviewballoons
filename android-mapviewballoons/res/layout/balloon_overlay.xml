@@ -10,15 +10,29 @@
     android:minWidth="75dp"
     android:orientation="horizontal"
     tools:ignore="UnusedResources">
-    <TextView
-        android:id="@+id/balloon_item_title"
+    <LinearLayout
+        android:id="@+id/balloon_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/balloon_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/balloon_item_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textSize="13sp"/>
+    </LinearLayout>
     <ImageView
         android:id="@+id/balloon_disclosure"
         android:layout_width="wrap_content"

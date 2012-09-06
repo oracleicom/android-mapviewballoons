@@ -38,6 +38,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 
 	private LinearLayout layout;
 	private TextView title;
+	private TextView subTitle;
 
 	/**
 	 * Create a new BalloonOverlayView.
@@ -47,7 +48,6 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	 * when rendering this view.
 	 */
 	public BalloonOverlayView(Context context, int balloonBottomOffset) {
-
 		super(context);
 
 		setPadding(10, 0, 10, balloonBottomOffset);
@@ -57,12 +57,10 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 
 		setupView(context, layout);
 
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.NO_GRAVITY;
 
 		addView(layout, params);
-
 	}
 
 	/**
@@ -77,6 +75,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.balloon_overlay, parent);
 		title = (TextView) v.findViewById(R.id.balloon_item_title);
+		subTitle = (TextView) v.findViewById(R.id.balloon_item_subtitle);
 	}
 	
 	/**
@@ -100,9 +99,19 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 		if (item.getTitle() != null) {
 			title.setVisibility(VISIBLE);
 			title.setText(item.getTitle());
-		} else {
+		} 
+		else {
 			title.setText("");
 			title.setVisibility(GONE);
+		}
+		
+		if (item.getSnippet() != null) {
+			subTitle.setVisibility(VISIBLE);
+			subTitle.setText(item.getSnippet());
+		}
+		else {
+			subTitle.setText("");
+			subTitle.setVisibility(GONE);
 		}
 	}
 	
