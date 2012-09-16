@@ -40,5 +40,6 @@
         android:layout_gravity="center_vertical|right"
         android:contentDescription="@string/balloon_next"
         android:paddingLeft="5dp"
-        android:src="@drawable/ic_ab_next_holo_light"/>
+        android:src="@drawable/ic_ab_next_holo_light"
+        android:visibility="gone"/>
 </LinearLayout>

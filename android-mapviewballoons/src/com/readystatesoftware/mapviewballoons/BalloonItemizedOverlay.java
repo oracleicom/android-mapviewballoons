@@ -52,7 +52,7 @@ public abstract class BalloonItemizedOverlay<Item extends OverlayItem> extends I
 	private Item currentFocusedItem;
 	private int currentFocusedIndex;
 	
-	private boolean showClose = true;
+//	private boolean showClose = true;
 	private boolean showDisclosure = false;
 	private boolean snapToCenter = true;
 	
@@ -107,26 +107,26 @@ public abstract class BalloonItemizedOverlay<Item extends OverlayItem> extends I
 	 */
 	protected void onBalloonOpen(int index) {}
 
-	/* (non-Javadoc)
-	 * @see com.google.android.maps.ItemizedOverlay#onTap(int)
-	 */
 	@Override
-	//protected final boolean onTap(int index) {
 	public final boolean onTap(int index) {
 		
-		handler.removeCallbacks(finishBalloonInflation);
-		isInflating = true;
-		handler.postDelayed(finishBalloonInflation, BALLOON_INFLATION_TIME);
+		BalloonOverlayItem item = (BalloonOverlayItem) getItem(index);
 		
-		currentFocusedIndex = index;
-		currentFocusedItem = createItem(index);
-		setLastFocusedIndex(index);
-		
-		onBalloonOpen(index);
-		createAndDisplayBalloonOverlay();
-		
-		if (snapToCenter) {
-			animateTo(index, currentFocusedItem.getPoint());
+		if (item.showBalloon()) {
+			handler.removeCallbacks(finishBalloonInflation);
+			isInflating = true;
+			handler.postDelayed(finishBalloonInflation, BALLOON_INFLATION_TIME);
+			
+			currentFocusedIndex = index;
+			currentFocusedItem = createItem(index);
+			setLastFocusedIndex(index);
+			
+			onBalloonOpen(index);
+			createAndDisplayBalloonOverlay();
+			
+			if (snapToCenter) {
+				animateTo(index, currentFocusedItem.getPoint());
+			}
 		}
 		
 		return true;
@@ -285,24 +285,23 @@ public abstract class BalloonItemizedOverlay<Item extends OverlayItem> extends I
 			clickRegion = (View) balloonView.findViewById(R.id.balloon_frame);
 			clickRegion.setOnTouchListener(createBalloonTouchListener());
 			closeRegion = (View) balloonView.findViewById(R.id.balloon_close);
+			
 			if (closeRegion != null) {
-				if (!showClose) {
-					closeRegion.setVisibility(View.GONE);
-				} else {
-					closeRegion.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							hideBalloon();	
-						}
-					});
-				}
+				closeRegion.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						hideBalloon();	
+					}
+				});
 			}
-			if (showDisclosure && !showClose) {
+			
+			if (showDisclosure) {
 				View v = balloonView.findViewById(R.id.balloon_disclosure);
 				if (v != null) {
 					v.setVisibility(View.VISIBLE);
 				}
 			}
+			
 			isRecycled = false;
 		} else {
 			isRecycled = true;
@@ -333,10 +332,6 @@ public abstract class BalloonItemizedOverlay<Item extends OverlayItem> extends I
 		}
 		
 		return isRecycled;
-	}
-	
-	public void setShowClose(boolean showClose) {
-		this.showClose = showClose;
 	}
 
 	public void setShowDisclosure(boolean showDisclosure) {
