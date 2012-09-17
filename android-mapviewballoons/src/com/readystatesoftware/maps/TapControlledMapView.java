@@ -8,14 +8,21 @@ import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 public class TapControlledMapView extends MapView implements OnGestureListener {
 
     private GestureDetector gd;    
     private OnSingleTapListener singleTapListener;
+    private GeoPoint currentCenter;
     private int oldZoomLevel = -1;
     private OnZoomListener onZoomListener;
+    private OnPanChangeListener onPanChangeListener;
+
+    public interface OnPanChangeListener {
+    	public void onPan(GeoPoint old, GeoPoint current);
+    }
     
     public interface OnZoomListener {
         public void onZoom();
@@ -66,6 +73,18 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
     
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		if (ev.getAction() == MotionEvent.ACTION_UP) {
+            GeoPoint centerGeoPoint = this.getMapCenter();
+            
+            if (currentCenter == null || (currentCenter.getLatitudeE6() != centerGeoPoint.getLatitudeE6()) || (currentCenter.getLongitudeE6() != centerGeoPoint.getLongitudeE6()) ) {
+            	if (onPanChangeListener != null) {
+        			onPanChangeListener.onPan(currentCenter,  this.getMapCenter());
+        		}
+            }
+            
+            currentCenter = this.getMapCenter();
+        }
+		
 		if (this.gd.onTouchEvent(ev)) {
 			return true;
 		} 
@@ -118,4 +137,8 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	public void setOnZoomListener(OnZoomListener onZoomListener) {
 		this.onZoomListener = onZoomListener;
 	}
+	
+	public void setOnPanChangeListener(OnPanChangeListener onPanChangeListener) {
+        this.onPanChangeListener = onPanChangeListener;
+    }
 }
