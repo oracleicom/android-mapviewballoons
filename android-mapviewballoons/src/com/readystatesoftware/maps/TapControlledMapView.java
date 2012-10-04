@@ -74,21 +74,21 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (ev.getAction() == MotionEvent.ACTION_UP) {
-            GeoPoint centerGeoPoint = this.getMapCenter();
+            GeoPoint centerGeoPoint = getMapCenter();
            
             if (currentCenter != null 
             		&& (currentCenter.getLatitudeE6() != centerGeoPoint.getLatitudeE6() 
             		|| currentCenter.getLongitudeE6() != centerGeoPoint.getLongitudeE6())) {		
 			
 	        	if (onPanChangeListener != null) {
-	    			onPanChangeListener.onPan(currentCenter,  this.getMapCenter());
+	    			onPanChangeListener.onPan(currentCenter,  getMapCenter());
 	    		}
             }
-            
-            currentCenter = this.getMapCenter();
         }
 		
-		if (this.gd.onTouchEvent(ev)) {
+		currentCenter = getMapCenter();
+		
+		if (gd.onTouchEvent(ev)) {
 			return true;
 		} 
 		else {
